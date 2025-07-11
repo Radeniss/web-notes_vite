@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
+import MainTemplate from '../components/Templates/MainTemplate';
 import NoteList from '../components/Layout/NoteList';
 import NoteForm from '../components/Fragments/NoteForm';
 import NoteViewer from '../components/Layout/NoteViewer';

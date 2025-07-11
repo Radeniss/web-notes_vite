@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Gaya untuk Tiptap Editor */
 .ProseMirror {
-  padding: 0.5rem;
+  padding: 1rem;
   min-height: 200px;
 }
 
@@ -20,22 +21,15 @@
   margin-bottom: 1rem;
 }
 
-.ProseMirror ul {
-  list-style-type: disc;
-}
-
-.ProseMirror ol {
-  list-style-type: decimal;
-}
-
-.ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4, .ProseMirror h5, .ProseMirror h6 {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
 .ProseMirror h1 { font-size: 2em; }
 .ProseMirror h2 { font-size: 1.5em; }
 .ProseMirror h3 { font-size: 1.17em; }
 .ProseMirror h4 { font-size: 1em; }
 .ProseMirror h5 { font-size: 0.83em; }
 .ProseMirror h6 { font-size: 0.67em; }
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0;
+}

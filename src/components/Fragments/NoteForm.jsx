@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Input from '../Elements/Input';
 import Button from '../Elements/Button';
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -19,19 +19,20 @@ const NoteForm = ({
 }) => {
   const editor = useEditor({
     extensions: [
-  StarterKit,
-  Image.configure({
-    inline: true,
-    allowBase64: true,
-  })
-],
+      StarterKit,
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+      })
+    ],
     content: content,
     onUpdate: ({ editor }) => {
+      // Update state content saat editor berubah
       onContentChange(editor.getHTML());
     },
   });
 
-  // Update editor content when resetting
+  // Perbarui editor saat content berubah
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content);
@@ -44,12 +45,40 @@ const NoteForm = ({
         label="Title"
         id="noteTitle"
         value={title}
-        onChange={onTitleChange}
+        onChange={(e) => onTitleChange(e.target.value)}
       />
       
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-        <div className="border border-gray-300 rounded-lg p-2 min-h-[200px]">
+        
+        {editor && (
+    <div className="flex gap-1 mb-2">
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={`p-2 rounded ${editor.isActive('bold') ? 'bg-gray-200' : ''}`}
+      >
+        <strong>B</strong>
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={`p-2 rounded ${editor.isActive('italic') ? 'bg-gray-200' : ''}`}
+      >
+        <em>I</em>
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={`p-2 rounded ${editor.isActive('bulletList') ? 'bg-gray-200' : ''}`}
+      >
+        List
+      </button>
+    </div>
+  )}
+        
+        {/* Editor Tiptap */}
+        <div className="border border-gray-300 rounded-lg min-h-[200px]">
           <EditorContent editor={editor} />
         </div>
       </div>

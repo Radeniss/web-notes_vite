@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import MainTemplate from '../components/Templates/MainTemplate';
+import MainTemplate from '../components/templates/MainTemplate';
 import NoteList from '../components/Layout/NoteList';
-import NoteForm from '../components/Fragments/NoteForm';
+import NoteForm from '../components/Fragments/NoteForm'; // Import NoteForm di sini
 import NoteViewer from '../components/Layout/NoteViewer';
-
 
 const HomePage = () => {
   // State management
@@ -63,16 +62,16 @@ const HomePage = () => {
   };
 
   // Save note
-  const saveNote = async () => {
+  const saveNote = () => {
   if (!title.trim()) {
     alert('Please enter a title for your note');
     return;
   }
 
-    const newNote = {
+  const newNote = {
     id: currentNote ? currentNote.id : Date.now().toString(),
     title,
-    content,
+    content, // <-- Ini akan berisi HTML dari editor
     date: currentNote ? currentNote.date : new Date().toISOString(),
     image: previewUrl
   };
@@ -141,17 +140,17 @@ const HomePage = () => {
   );
 
   const mainContent = isViewMode ? (
-  <NoteViewer 
-    note={currentNote} 
-    onEdit={editNote} 
-    onDelete={deleteNote} 
-  />
+    <NoteViewer 
+      note={currentNote} 
+      onEdit={editNote} 
+      onDelete={deleteNote} 
+    />
   ) : (
     <NoteForm
       title={title}
       content={content}
-      onTitleChange={(e) => setTitle(e.target.value)}
-      onContentChange={(e) => setContent(e.target.value)}
+      onTitleChange={setTitle} // Menggunakan setTitle langsung
+      onContentChange={setContent} // Menggunakan setContent langsung
       onSave={saveNote}
       onClear={resetEditor}
       fileName={fileName}

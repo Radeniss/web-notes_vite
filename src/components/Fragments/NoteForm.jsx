@@ -1,6 +1,6 @@
-import Input from '../atoms/Input';
-import TextArea from '../atoms/TextArea';
-import Button from '../atoms/Button';
+import Input from '../Elements/Input';
+import TextArea from '../Elements/TextArea';
+import Button from '../Elements/Button';
 
 const NoteForm = ({ 
   title, 

@@ -4,6 +4,7 @@ import NoteList from '../components/Layout/NoteList';
 import NoteForm from '../components/Fragments/NoteForm';
 import NoteViewer from '../components/Layout/NoteViewer';
 
+
 const HomePage = () => {
   // State management
   const [notes, setNotes] = useState([]);
@@ -63,23 +64,18 @@ const HomePage = () => {
 
   // Save note
   const saveNote = async () => {
-    if (!title.trim()) {
-      alert('Please enter a title for your note');
-      return;
-    }
-
-    if (!content.trim()) {
-      alert('Please enter some content');
-      return;
-    }
+  if (!title.trim()) {
+    alert('Please enter a title for your note');
+    return;
+  }
 
     const newNote = {
-      id: currentNote ? currentNote.id : Date.now().toString(),
-      title,
-      content,
-      date: currentNote ? currentNote.date : new Date().toISOString(),
-      image: previewUrl
-    };
+    id: currentNote ? currentNote.id : Date.now().toString(),
+    title,
+    content,
+    date: currentNote ? currentNote.date : new Date().toISOString(),
+    image: previewUrl
+  };
 
     if (currentNote) {
       // Update existing note

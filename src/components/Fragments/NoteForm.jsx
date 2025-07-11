@@ -3,6 +3,7 @@ import Input from '../Elements/Input';
 import Button from '../Elements/Button';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
 
 const NoteForm = ({ 
   title, 
@@ -17,7 +18,13 @@ const NoteForm = ({
   previewUrl
 }) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+  StarterKit,
+  Image.configure({
+    inline: true,
+    allowBase64: true,
+  })
+],
     content: content,
     onUpdate: ({ editor }) => {
       onContentChange(editor.getHTML());

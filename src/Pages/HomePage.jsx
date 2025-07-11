@@ -40,6 +40,18 @@ const HomePage = () => {
     reader.readAsDataURL(file);
   };
 
+    // Fungsi untuk menghapus note
+  const deleteNote = (noteId) => {
+    if (window.confirm('Are you sure you want to delete this note?')) {
+      const updatedNotes = notes.filter(note => note.id !== noteId);
+      setNotes(updatedNotes);
+      if (currentNote && currentNote.id === noteId) {
+        resetEditor();
+      }
+    }
+  };
+
+
   // Remove image
   const handleRemoveImage = () => {
     setPreviewUrl('');
@@ -124,15 +136,20 @@ const HomePage = () => {
   const sidebar = (
     <>
       <h2 className="text-xl font-semibold mb-4 text-gray-800">Your Notes</h2>
-      <NoteList notes={notes} onNoteClick={viewNote} />
+      <NoteList 
+        notes={notes} 
+        onNoteClick={viewNote} 
+        onDeleteNote={deleteNote} 
+      />
     </>
   );
 
   const mainContent = isViewMode ? (
-    <NoteViewer 
-      note={currentNote} 
-      onEdit={editNote} 
-    />
+  <NoteViewer 
+    note={currentNote} 
+    onEdit={editNote} 
+    onDelete={deleteNote} 
+  />
   ) : (
     <NoteForm
       title={title}

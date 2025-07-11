@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import Input from '../Elements/Input';
-import TextArea from '../Elements/TextArea';
 import Button from '../Elements/Button';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 
 const NoteForm = ({ 
   title, 
@@ -14,6 +16,21 @@ const NoteForm = ({
   onRemoveImage,
   previewUrl
 }) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: content,
+    onUpdate: ({ editor }) => {
+      onContentChange(editor.getHTML());
+    },
+  });
+
+  // Update editor content when resetting
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
+
   return (
     <>
       <Input 
@@ -23,13 +40,12 @@ const NoteForm = ({
         onChange={onTitleChange}
       />
       
-      <TextArea 
-        label="Content"
-        id="noteContent"
-        rows={10}
-        value={content}
-        onChange={onContentChange}
-      />
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+        <div className="border border-gray-300 rounded-lg p-2 min-h-[200px]">
+          <EditorContent editor={editor} />
+        </div>
+      </div>
       
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">Add Image</label>

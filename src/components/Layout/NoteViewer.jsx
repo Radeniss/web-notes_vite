@@ -24,11 +24,14 @@ const NoteViewer = ({ note, onEdit, onDelete }) => {
           </Button>
         </div>
       </div>
-      <p className="whitespace-pre-line text-gray-700 mb-4">
-        {note?.content}
-      </p>
+      
+      <div 
+        className="prose prose-sm max-w-none" 
+        dangerouslySetInnerHTML={{ __html: note?.content }} 
+      />
+      
       {note?.image && (
-        <div className="mb-6">
+        <div className="mb-6 mt-4">
           <img 
             src={note.image} 
             alt="Note content" 
@@ -36,7 +39,8 @@ const NoteViewer = ({ note, onEdit, onDelete }) => {
           />
         </div>
       )}
-      <div className="text-sm text-gray-500">
+      
+      <div className="text-sm text-gray-500 mt-4">
         Saved on: <span>{note && new Date(note.date).toLocaleString()}</span>
       </div>
     </div>

@@ -7,6 +7,12 @@ const NoteList = ({ notes, onNoteClick, onDeleteNote }) => {
     );
   }
 
+  const stripHtml = (html) => {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || "";
+};
+
   return (
     <div className="space-y-4">
       {notes.map(note => (
@@ -30,8 +36,8 @@ const NoteList = ({ notes, onNoteClick, onDeleteNote }) => {
           <div onClick={() => onNoteClick(note)}>
             <h4 className="font-medium text-gray-800 truncate pr-6">{note.title}</h4>
             <p className="text-sm text-gray-500 mt-1 truncate">
-              {note.content.substring(0, 50)}
-              {note.content.length > 50 ? '...' : ''}
+            {stripHtml(note.content).substring(0, 50)}
+            {stripHtml(note.content).length > 50 ? '...' : ''}
             </p>
             <div className="flex justify-between items-center mt-2">
               <span className="text-xs text-gray-400">

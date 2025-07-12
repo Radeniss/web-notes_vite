@@ -7,6 +7,9 @@
   padding: 1rem;
   min-height: 200px;
   outline: none;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .ProseMirror:focus {

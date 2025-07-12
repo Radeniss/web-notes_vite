@@ -21,12 +21,47 @@
   margin-bottom: 1rem;
 }
 
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.ProseMirror u {
+  text-decoration: underline;
+  text-decoration-color: #6366f1; /* Warna underline */
+  text-decoration-thickness: 2px; /* Ketebalan garis */
+}
+
+.ProseMirror p[data-text-align="left"] {
+  text-align: left;
+}
+
+.ProseMirror p[data-text-align="center"] {
+  text-align: center;
+}
+
+.ProseMirror p[data-text-align="right"] {
+  text-align: right;
+}
+
+.ProseMirror p[data-text-align="justify"] {
+  text-align: justify;
+}
+
 .ProseMirror h1 { font-size: 2em; }
 .ProseMirror h2 { font-size: 1.5em; }
 .ProseMirror h3 { font-size: 1.17em; }
 .ProseMirror h4 { font-size: 1em; }
 .ProseMirror h5 { font-size: 0.83em; }
 .ProseMirror h6 { font-size: 0.67em; }
+
+.ProseMirror h1[data-text-align],
+.ProseMirror h2[data-text-align],
+.ProseMirror h3[data-text-align],
+.ProseMirror h4[data-text-align],
+.ProseMirror h5[data-text-align],
+.ProseMirror h6[data-text-align] {
+  text-align: var(--text-align);
+}
 
 .ProseMirror img {
   max-width: 100%;

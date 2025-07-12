@@ -5,6 +5,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import TextAlign from '@tiptap/extension-text-align';
+import Underline from '@tiptap/extension-underline';
 
 const NoteForm = ({ 
   title, 
@@ -20,7 +21,7 @@ const NoteForm = ({
 }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit, Underline,
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -58,7 +59,7 @@ const NoteForm = ({
         
         {editor && (
     
-    <div className="flex gap-1 mb-2">
+    <div className="flex gap-1 mb-2 flex-wrap">
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -73,6 +74,14 @@ const NoteForm = ({
       >
         <em>I</em>
       </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        className={`p-2 rounded ${editor.isActive('underline') ? 'bg-gray-200' : ''}`}
+        title="Underline"
+      >
+         <u>U</u>
+        </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}

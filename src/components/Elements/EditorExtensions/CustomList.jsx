@@ -12,9 +12,7 @@ export const CustomBulletList = BulletList.extend({
         renderHTML: attributes => {
           return {
             'data-style-type': attributes.styleType,
-            style: attributes.styleType !== 'disc' ? 
-                  `list-style-type: ${attributes.styleType}` : 
-                  null
+            style: `list-style-type: ${attributes.styleType}`
           };
         },
       },
@@ -30,14 +28,17 @@ export const CustomOrderedList = OrderedList.extend({
         default: 'decimal',
         parseHTML: element => element.getAttribute('data-list-style-type') || 'decimal',
         renderHTML: attributes => {
-          // Perbaikan: Jangan render style untuk tipe dengan tanda kurung
-          const isParenthesisType = attributes.listStyleType?.includes('parenthesis');
+          // Gunakan class CSS untuk jenis khusus
+          if (attributes.listStyleType?.includes('parenthesis')) {
+            return {
+              'data-list-style-type': attributes.listStyleType,
+              'class': `list-type-${attributes.listStyleType}`
+            };
+          }
           
           return {
             'data-list-style-type': attributes.listStyleType,
-            style: !isParenthesisType ? 
-                  `list-style-type: ${attributes.listStyleType}` : 
-                  null
+            'style': `list-style-type: ${attributes.listStyleType}`
           };
         },
       },
@@ -49,13 +50,13 @@ export const CustomListItem = ListItem.extend({
   addAttributes() {
     return {
       ...this.parent?.(),
-      listStyleType: {
+      styleType: {
         default: null,
-        parseHTML: element => element.getAttribute('data-list-style-type'),
+        parseHTML: element => element.getAttribute('data-style-type'),
         renderHTML: attributes => {
-          if (!attributes.listStyleType) return {};
+          if (!attributes.styleType) return {};
           return {
-            'data-list-style-type': attributes.listStyleType,
+            'data-style-type': attributes.styleType,
           };
         },
       },
@@ -63,32 +64,34 @@ export const CustomListItem = ListItem.extend({
   },
 });
 
-// Fungsi untuk menangani gaya list khusus (versi diperbaiki)
+// Fungsi untuk menangani gaya list khusus (Versi diperbaiki)
 export const handleListStyle = (editor, style) => {
-  // Periksa apakah list sudah aktif dengan tipe yang sama
-  const isActiveBullet = editor.isActive('bulletList', { styleType: style });
-  const isActiveOrdered = editor.isActive('orderedList', { listStyleType: style });
+  const isBulletType = ['disc', 'circle', 'square'].includes(style);
+  const listType = isBulletType ? 'bulletList' : 'orderedList';
   
-  // Jika sudah aktif dengan tipe yang sama, matikan list
-  if (isActiveBullet) {
+  // Cek apakah list dengan style yang sama sudah aktif
+  const isActive = editor.isActive(listType, { 
+    [isBulletType ? 'styleType' : 'listStyleType']: style 
+  });
+  
+  if (isActive) {
+    // Matikan jika sudah aktif
+    editor.chain().focus().toggleList(listType).run();
+    return;
+  }
+  
+  // Matikan semua list aktif terlebih dahulu
+  if (editor.isActive('bulletList')) {
     editor.chain().focus().toggleBulletList().run();
-    return;
   }
-  
-  if (isActiveOrdered) {
+  if (editor.isActive('orderedList')) {
     editor.chain().focus().toggleOrderedList().run();
-    return;
   }
   
-  // Matikan list aktif jika ada
-  if (editor.isActive('bulletList')) editor.chain().focus().toggleBulletList().run();
-  if (editor.isActive('orderedList')) editor.chain().focus().toggleOrderedList().run();
-  
-  // Terapkan gaya baru
-  if (style === 'disc') {
-    editor.chain().focus().toggleBulletList({ styleType: 'disc' }).run();
-  } 
-  else {
+  // Aktifkan list dengan style yang dipilih
+  if (isBulletType) {
+    editor.chain().focus().toggleBulletList({ styleType: style }).run();
+  } else {
     editor.chain().focus().toggleOrderedList({ listStyleType: style }).run();
   }
 };

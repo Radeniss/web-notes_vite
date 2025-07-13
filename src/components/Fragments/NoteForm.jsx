@@ -54,7 +54,6 @@ const NoteForm = ({
     },
   });
 
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (listDropdownRef.current && !listDropdownRef.current.contains(event.target)) {
@@ -66,8 +65,8 @@ const NoteForm = ({
   }, []);
 
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
+  if (editor && content !== editor.getHTML()) {
+    editor.commands.setContent(content, false);
     }
   }, [content, editor]);
 
@@ -175,14 +174,14 @@ const NoteForm = ({
                       onClick={() => handleListStyle(editor, 'decimal')}
                       className="flex w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      <span className="mr-2 w-4 inline-block">1.</span> Numbered List
+                    <span className="mr-2 w-4 inline-block">1.</span> Numbered List
                     </button>
                     <button
                       type="button"
                       onClick={() => handleListStyle(editor, 'lower-alpha')}
                       className="flex w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      <span className="mr-2 w-4 inline-block">a.</span> Lower Alpha List
+                    <span className="mr-2 w-4 inline-block">a.</span> Lower Alpha List
                     </button>
                     <button
                       type="button"
